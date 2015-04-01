@@ -64,8 +64,8 @@ extension NSData : DataConvertible, DataRepresentable {
     
 }
 
-public enum JSON : DataConvertible, DataRepresentable {
-    public typealias Result = JSON
+public enum JSONData : DataConvertible, DataRepresentable {
+    public typealias Result = JSONData
     
     case Dictionary([String:AnyObject])
     case Array([AnyObject])
@@ -75,9 +75,9 @@ public enum JSON : DataConvertible, DataRepresentable {
         if let object : AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error) {
             switch (object) {
             case let dictionary as [String:AnyObject]:
-                return JSON.Dictionary(dictionary)
+                return JSONData.Dictionary(dictionary)
             case let array as [AnyObject]:
-                return JSON.Array(array)
+                return JSONData.Array(array)
             default:
                 return nil
             }
