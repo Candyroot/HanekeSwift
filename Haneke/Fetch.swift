@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FetchState<T> {
+public enum FetchState<T> {
     case Pending
     // Using Wrapper as a workaround for error 'unimplemented IR generation feature non-fixed multi-payload enum layout'
     // See: http://swiftradar.tumblr.com/post/88314603360/swift-fails-to-compile-enum-with-two-data-cases
@@ -23,11 +23,11 @@ public class Fetch<T> {
     
     public typealias Failer = (NSError?) -> ()
     
-    private var onSuccess : Succeeder?
+    public var onSuccess : Succeeder?
     
-    private var onFailure : Failer?
+    public var onFailure : Failer?
     
-    private var state : FetchState<T> = FetchState.Pending
+    public var state : FetchState<T> = FetchState.Pending
     
     public init() {}
     
@@ -61,17 +61,17 @@ public class Fetch<T> {
         return self
     }
     
-    func succeed(value : T) {
+    public func succeed(value : T) {
         self.state = FetchState.Success(Wrapper(value))
         self.onSuccess?(value)
     }
     
-    func fail(_ error : NSError? = nil) {
+    public func fail(_ error : NSError? = nil) {
         self.state = FetchState.Failure(error)
         self.onFailure?(error)
     }
     
-    var hasFailed : Bool {
+    public var hasFailed : Bool {
         switch self.state {
         case FetchState.Failure(_):
             return true
@@ -80,7 +80,7 @@ public class Fetch<T> {
             }
     }
     
-    var hasSucceeded : Bool {
+    public var hasSucceeded : Bool {
         switch self.state {
         case FetchState.Success(_):
             return true
