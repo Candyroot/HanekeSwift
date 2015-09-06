@@ -164,7 +164,8 @@ public class DiskCache {
         if (!success) {
             Log.error("Failed to write key \(key)", error)
         }
-        if let attributes = previousAttributes {
+        if let attributes = previousAttributes
+            where self.size >= attributes.fileSize() {
             self.size -= attributes.fileSize()
         }
         self.size += UInt64(data.length)
@@ -187,7 +188,7 @@ public class DiskCache {
         let fileManager = NSFileManager.defaultManager()
         if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: &error) {
             let fileSize = attributes.fileSize()
-            if fileManager.removeItemAtPath(path, error: &error) {
+            if fileManager.removeItemAtPath(path, error: &error) && self.size >= fileSize {
                 self.size -= fileSize
             } else {
                 Log.error("Failed to remove file", error)
