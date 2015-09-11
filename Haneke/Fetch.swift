@@ -66,7 +66,7 @@ public class Fetch<T> {
         self.onSuccess?(value)
     }
     
-    public func fail(_ error : NSError? = nil) {
+    public func fail(error : NSError? = nil) {
         self.state = FetchState.Failure(error)
         self.onFailure?(error)
     }
